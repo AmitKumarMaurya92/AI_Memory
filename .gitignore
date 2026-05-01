@@ -1,0 +1,19 @@
+# Environment variables — never commit these!
+.env
+
+# Python
+__pycache__/
+*.py[cod]
+*.pyo
+venv/
+.venv/
+
+# FAISS index & database (large binary files)
+database/faiss_index/
+database/metadata.db
+
+# Uploaded files
+uploads/
+
+# Models cache
+models/

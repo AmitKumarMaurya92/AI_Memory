@@ -1,0 +1,14 @@
+fastapi==0.110.3
+uvicorn[standard]==0.29.0
+python-multipart==0.0.9
+sentence-transformers
+faiss-cpu
+groq
+requests==2.32.2
+python-dotenv==1.0.1
+pymupdf
+python-docx
+numpy
+pydantic
+scikit-learn
+tqdm

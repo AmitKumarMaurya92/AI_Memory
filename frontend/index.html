@@ -1,0 +1,145 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>AI Memory Companion | Your Digital Brain</title>
+    <meta name="description" content="Upload documents and ask questions – your AI Memory Companion recalls everything from your stored notes, PDFs, and files." />
+    <link rel="stylesheet" href="/static/style.css" />
+</head>
+<body>
+
+<div class="layout">
+
+    <!-- ═══════════════════════════════════
+         SIDEBAR
+    ═══════════════════════════════════ -->
+    <aside class="sidebar">
+
+        <!-- Logo -->
+        <div class="logo">
+            <div class="logo-icon">🧠</div>
+            <div>
+                <div class="logo-text">Memoria AI</div>
+                <div class="logo-sub">Your Digital Brain</div>
+            </div>
+        </div>
+
+        <!-- Navigation -->
+        <div class="nav-item active" data-tab="chat" id="nav-chat">
+            <span class="icon">💬</span> Chat
+        </div>
+        <div class="nav-item" data-tab="history" id="nav-history">
+            <span class="icon">🕐</span> History
+        </div>
+        <div class="nav-item" data-tab="files" id="nav-files">
+            <span class="icon">📂</span> My Files
+        </div>
+
+        <!-- File Upload -->
+        <div class="upload-section">
+            <div class="upload-label">Upload Memory</div>
+
+            <div class="upload-zone" id="upload-zone">
+                <div class="icon">📤</div>
+                <p>Drag & drop or <span>browse</span><br/>.txt • .pdf • .docx</p>
+                <div class="progress-bar-wrap" id="progress-wrap">
+                    <div class="progress-bar" id="progress-bar"></div>
+                </div>
+            </div>
+            <input type="file" id="file-input" accept=".txt,.pdf,.docx" />
+
+            <div class="file-list" id="sidebar-file-list"></div>
+        </div>
+    </aside>
+
+    <!-- ═══════════════════════════════════
+         MAIN CONTENT
+    ═══════════════════════════════════ -->
+    <main class="main">
+
+        <!-- Header -->
+        <header class="header">
+            <div>
+                <div class="header-title">AI Memory Companion</div>
+                <div class="header-sub">
+                    <span class="status-dot"></span>
+                    RAG-powered • Ask anything from your uploaded memories
+                </div>
+            </div>
+            <div id="memory-count" style="font-size:0.8rem; color:var(--text-secondary);">
+                0 memories stored
+            </div>
+        </header>
+
+        <!-- Tabs -->
+        <nav class="tabs">
+            <button class="tab-btn active" data-tab="chat">💬 Chat</button>
+            <button class="tab-btn" data-tab="history">🕐 History</button>
+            <button class="tab-btn" data-tab="files">📂 Files</button>
+        </nav>
+
+        <!-- ── CHAT VIEW ── -->
+        <section class="view active" id="view-chat">
+
+            <div class="chat-messages" id="chat-messages">
+                <!-- Welcome screen shown when there are no messages -->
+                <div class="welcome" id="welcome-screen">
+                    <div class="welcome-icon">🧠</div>
+                    <h2>Your Digital Brain</h2>
+                    <p>
+                        Upload your notes, PDFs, or documents using the sidebar,
+                        then ask me anything — I'll find the answer from your stored memories.
+                    </p>
+
+                    <div class="suggestion-chips" id="suggestion-chips">
+                        <div class="chip">What did I study last week?</div>
+                        <div class="chip">Summarize my project notes</div>
+                        <div class="chip">What are my key points about AI?</div>
+                        <div class="chip">Show everything about Python</div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Input Bar -->
+            <div class="chat-input-area">
+                <div class="input-row">
+                    <textarea
+                        id="query-input"
+                        placeholder="Ask a question about your memories…"
+                        rows="1"
+                        maxlength="1000"
+                    ></textarea>
+                    <button class="send-btn" id="send-btn" title="Send (Enter)">➤</button>
+                </div>
+                <div class="input-hint">Press Enter to send &nbsp;·&nbsp; Shift+Enter for new line</div>
+            </div>
+        </section>
+
+        <!-- ── HISTORY VIEW ── -->
+        <section class="view" id="view-history">
+            <div class="history-view" id="history-list">
+                <div class="history-empty">
+                    No queries yet. Start chatting to build your history!
+                </div>
+            </div>
+        </section>
+
+        <!-- ── FILES VIEW ── -->
+        <section class="view" id="view-files">
+            <div class="files-view" id="files-list">
+                <div class="files-empty">
+                    No files uploaded yet. Drag & drop a document to get started!
+                </div>
+            </div>
+        </section>
+
+    </main>
+</div>
+
+<!-- Toast container -->
+<div id="toast-container"></div>
+
+<script src="/static/script.js"></script>
+</body>
+</html>
