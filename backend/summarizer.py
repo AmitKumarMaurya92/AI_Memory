@@ -44,15 +44,13 @@ def generate_answer(context: str, query: str) -> dict:
 # ──────────────────────────────────────────────
 
 GROQ_URL   = "https://api.groq.com/openai/v1/chat/completions"
-GROQ_MODEL = "llama3-8b-8192"   # fast & free on Groq
+GROQ_MODEL = "llama-3.1-8b-instant"   # fast & free on Groq
 
 
 def _answer_groq(context: str, query: str) -> dict:
-    """Call the Groq Chat Completions API."""
-    headers = {
-        "Authorization": f"Bearer {GROQ_API_KEY}",
-        "Content-Type":  "application/json",
-    }
+    """Call the Groq Chat Completions API using the groq library."""
+    from groq import Groq
+    client = Groq(api_key=GROQ_API_KEY)
 
     system_prompt = (
         "You are a helpful AI Memory Companion. "
@@ -67,48 +65,38 @@ def _answer_groq(context: str, query: str) -> dict:
         "Please provide a clear, concise answer based on the context above."
     )
 
-    payload = {
-        "model": GROQ_MODEL,
-        "messages": [
+    response = client.chat.completions.create(
+        model=GROQ_MODEL,
+        messages=[
             {"role": "system", "content": system_prompt},
             {"role": "user",   "content": user_message},
         ],
-        "max_tokens": 500,
-        "temperature": 0.3,
-    }
+        max_tokens=500,
+        temperature=0.3,
+    )
 
-    response = http_requests.post(GROQ_URL, headers=headers, json=payload, timeout=30)
-    response.raise_for_status()
-    data = response.json()
-
-    answer  = data["choices"][0]["message"]["content"].strip()
+    answer = response.choices[0].message.content.strip()
     summary = _summarize_groq(context)
     return {"answer": answer, "summary": summary}
 
 
 def _summarize_groq(context: str) -> str:
     """Generate a 2-3 sentence summary of the context using Groq."""
-    headers = {
-        "Authorization": f"Bearer {GROQ_API_KEY}",
-        "Content-Type":  "application/json",
-    }
+    from groq import Groq
+    client = Groq(api_key=GROQ_API_KEY)
 
-    payload = {
-        "model": GROQ_MODEL,
-        "messages": [
+    response = client.chat.completions.create(
+        model=GROQ_MODEL,
+        messages=[
             {
                 "role": "user",
                 "content": f"Summarize the following in 2-3 sentences:\n\n{context}",
             }
         ],
-        "max_tokens": 150,
-        "temperature": 0.3,
-    }
-
-    response = http_requests.post(GROQ_URL, headers=headers, json=payload, timeout=30)
-    response.raise_for_status()
-    data = response.json()
-    return data["choices"][0]["message"]["content"].strip()
+        max_tokens=150,
+        temperature=0.3,
+    )
+    return response.choices[0].message.content.strip()
 
 
 # ──────────────────────────────────────────────
